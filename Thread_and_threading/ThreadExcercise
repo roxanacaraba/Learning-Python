@@ -1,0 +1,100 @@
+#using lock: lock.acquire si lock.release
+"""
+import threading
+import time
+lock = threading.Lock()
+
+
+def func(num1, num2, sleep_time):
+    global lock
+    lock.acquire()
+    time.sleep(sleep_time)
+    print(int(num1), float(num2), "\t", threading.current_thread().getName())
+    lock.release()
+
+
+t = threading.Thread(target=func, args=(5.9, 3.6, 3))
+t.start()
+
+
+t2 = threading.Thread(target=func, args=(-12, 2.86, 0))
+t2.start()
+
+
+t3 = threading.Thread(target=func, args=(2.1, 1.3, 4))
+t3.start()
+
+t4 = threading.Thread(target=func, args=(237348.1, 0.1, 2))
+t4.start()
+
+t5 = threading.Thread(target=func, args=(-10000, -10.20, 3))
+t5.start()
+"""
+#using with lock
+"""import threading
+import time
+lock = threading.Lock()
+
+
+def func(num1, num2, sleep_time):
+    global lock
+    time.sleep(sleep_time)
+    with lock:
+        print(int(num1), float(num2), "\t", threading.current_thread().getName())
+
+
+t = threading.Thread(target=func, args=(5.9, 3.6, 3))
+t.start()
+
+
+t2 = threading.Thread(target=func, args=(-12, 2.86, 0))
+t2.start()
+
+
+t3 = threading.Thread(target=func, args=(2.1, 1.3, 4))
+t3.start()
+
+t4 = threading.Thread(target=func, args=(237348.1, 0.1, 2))
+t4.start()
+
+t5 = threading.Thread(target=func, args=(-10000, -10.20, 3))
+t5.start()
+"""
+
+#using star_new_thread
+"""
+import _thread
+import time
+
+
+def myprint(sleep_period, name, count):
+    for i in range(0, count):
+        print(name+"=>" + str(i))
+        time.sleep(sleep_period)
+
+
+_thread.start_new_thread(myprint, (1, "Thread 1", 3))
+_thread.start_new_thread(myprint, (2, "Thread 2", 2))
+_thread.start_new_thread(myprint, (3, "Thread 3", 1))
+time.sleep(10)
+"""
+#using lock to wait for a thread to finish
+"""
+import threading
+import time
+lock = threading.Lock()
+lock.acquire()
+
+def Myprint(sleep_period, name, count):
+    global lock
+    for i in range(0, count):
+        print(name + "=>" + str(i))
+        time.sleep(sleep_period)
+    lock.release()
+threading.Thread(Myprint(1, "Thread 1", 3))
+print("Waiting for a thread to finish..")
+lock.acquire()
+print("Thread finished")
+"""
+
+
